@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HV-Autocomplete</title>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
+  <script src="js/hv-autocomplete.js"></script>
+  <script src="js/type.js"></script>
+  <script src="js/script.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/hv-styles.css">
+</head>
+
+<body>
+  <header>
+    <div class="container head">
+      <h1>Hv-Autocomplete</h1>
+    </div>
+  </header>
+
+  <div class="about-header" id="about">
+    <div class="container-header">
+      <div class="about">
+        <p>HV-Autocomplete is the most flexible autoсomplete for design and developers. You can do something more then
+          with another autoсomplets. For example firstly goal HV-Autocomplete is you may do <a href="#categories">Horizontal</a>
+          or <a href="#categories">Vertical</a> search results.
+        </p>
+        <p>HV-Autocomplete is using <a href="https://jquery.com/download/">jQuery</a>.
+        </p>
+
+        <div class="main-example">
+        </div>
+      </div>
+      <div class="main-doce-example">
+        <pre id="main-example-anim" class="example-code">
+  $('.main-example').HVAutocomplete({
+    data: countries,
+    placeholder: "Search country...",
+    maxLength: 5
+  });
+</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="container container-margin-top">
+    <div class="left-side">
+      <div class="nav-bar" id="nav-bar">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#getting-started">Getting started</a></li>
+          <li><a href="#basic">Basic</a></li>
+          <li><a href="#styling">Styling</a></li>
+          <li><a href="#styling">Animate</a></li>
+          <li><a href="#categories">Categories</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="right-side">
+      <h1 class="title-group" id="getting-started">Getting started</h1>
+      <div class="letter">
+        <div class="description">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident nam, rem, laudantium voluptatibus
+            voluptatum
+            laborum molestiae inventore ducimus possimus quidem nostrum adipisci animi cum. Vel veritatis illo
+            praesentium
+            explicabo quibusdam?
+          </p>
+        </div>
+      </div>
+
+      <h1 class="title-group" id="basic">Basic</h1>
+      <div class="letter">
+        <div class="description">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident nam, rem, laudantium voluptatibus
+            voluptatum
+            laborum molestiae inventore ducimus possimus quidem nostrum adipisci animi cum. Vel veritatis illo
+            praesentium
+            explicabo quibusdam?
+          </p>
+          <h3>JS</h3>
+          <pre class="example-code">
+      var config = {
+        div: $(".main-example"),
+        inputPlaceholder: "Search...",
+        maxLength: 7,
+        globalSearch: true
+      };
+      
+      HVAutocomplete(config, data);
+    </pre>
+          <div class="my-autocomplete-basic">
+          </div>
+        </div>
+      </div>
+
+      <h1 class="title-group" id="styling">Styling</h1>
+
+      <div class="letter">
+        <div class="description">
+          <h2>Class</h2>
+          <h3>JS</h3>
+          <p>дефолтный класс удаляеться!</p>
+          <pre class="example-code">
+      var configs = {
+        div: $(".my-autocomplete-class"),
+        inputPlaceholder: "Search...",
+        categories: true,
+        inputClassName: "example-class-input",
+        resultClassName: "example-class-result"
+      };
+    
+      HVAutocomplete(configs, data);
+    </pre>
+          <h3>CSS</h3>
+          <pre class="example-code">
+      .example-class-input {
+        width: 300px;
+        height: 30px;
+        border-radius: 3px;
+        padding-left: 20px;
+        box-sizing: border-box;
+        background-color: #fffddb;
+        border: 1px solid #ffca8e;
+        outline: none;
+      }
+      
+      .example-class-input::placeholder {
+        color: #000;
+      }
+      
+      .example-class-result {
+        width: 300px;
+        border-radius: 3px;
+        padding: 0;
+        background-color: #fffddb;
+        border: 1px solid #ffca8e;
+        color: #000;
+      }
+      
+      .example-class-result h3 {
+        margin-left: 5px;
+      }
+      
+      .example-class-result p {
+        padding: 5px;
+      }
+      
+      .example-class-result p:hover {
+        background-color: #fda877;
+      }                    
+    </pre>
+        </div>
+        <div class="my-autocomplete-class">
+        </div>
+      </div>
+      <div class="letter">
+        <div class="description">
+          <h2>Style</h2>
+          <h3>JS</h3>
+          <pre class="example-code">
+      var configs = {
+        div: $(".my-autocomplete-horizontal"),
+        inputPlaceholder: "Search...",
+        inputStyles: {
+          paddingLeft: "30px",  
+          width: 300
+        },
+        resultStyles: {
+          backgroundColor: "#efefef",
+          width: 300
+        }
+      };
+      
+      HVAutocomplete(configs, data);
+    </pre>
+        </div>
+        <div class="my-autocomplete-style">
+        </div>
+      </div>
+
+      <h1 class="title-group" id="categories">Categories</h1>
+      <div class="letter">
+        <div class="description">
+          <h2>Horizontal</h2>
+          <h3>JS</h3>
+          <pre class="example-code">
+    var configs = {
+      div: $(".my-autocomplete-horizontal"),
+      inputPlaceholder: "Search...",
+      categories: true,
+      displayHorizontal: true,
+      globalSearch: true
+    };
+    
+    HVAutocomplete(configs, data);
+    </pre>
+        </div>
+        <div class="my-autocomplete-horizontal">
+        </div>
+      </div>
+      <div class="letter">
+        <div class="description">
+          <h2>Vertical</h2>
+          <h3>JS</h3>
+          <pre class="example-code">
+    var configs = {
+      div: $(".my-autocomplete-vertical"),
+      inputPlaceholder: "Search...",
+      categories: true
+    };
+    
+    HVAutocomplete(configs, data);
+    </pre>
+        </div>
+        <div class="my-autocomplete-vertical">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

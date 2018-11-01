@@ -1,0 +1,229 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400");
+
+body,
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: #fffdfc;
+}
+
+header {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ff8742;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+header h1 {
+  color: #fff;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+a {
+  color: #1276ce;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#nav-bar ul li a {
+  color: #000;
+  transition: 100ms;
+  cursor: pointer;
+  font-weight: 300;
+}
+
+#nav-bar ul li a:hover {
+  color: #ff8742;
+  text-decoration: none;
+}
+
+#nav-bar ul li {
+  position: relative;
+}
+
+#nav-bar ul {
+  position: absolute;
+  z-index: -1;
+  list-style: none;
+}
+
+#nav-bar ul li {
+  margin-bottom: 8px;
+}
+
+.container-header {
+  max-width: 834px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-header .about {
+  width: 60%;
+}
+
+.container-header .about p {
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+.container-header .main-example {
+  margin-top: 20px;
+  width: 300px;
+  height: 40px;
+}
+
+.about-header {
+  background-color: #fff3ed;
+  padding-top: 110px;
+  padding-bottom: 50px;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.16);
+  margin-bottom: 50px;
+}
+
+.title-group {
+  font-weight: 100;
+}
+
+.container {
+  max-width: 831px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.right-side {
+  max-width: 624px;
+}
+
+.left-side {
+  width: 150px;
+}
+
+.container-margin-top {
+  z-index: 1;
+  margin-bottom: 200px;
+}
+
+.letter {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+.letter .description h2 {
+  text-indent: 15px;
+  font-weight: 300;
+  font-size: 32px;
+  border-bottom: solid 1px #ff8742;
+}
+
+.letter .description h3 {
+  text-indent: 15px;
+  margin-top: 10px;
+}
+
+.letter .description h4 {
+  text-indent: 15px;
+  font-weight: 300;
+  font-size: 22px;
+  margin-top: 15px;
+}
+
+.letter .description p {
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.about .description p {
+  font-size: 18px;
+}
+
+.without-category {
+  padding: 0;
+}
+
+.underline {
+  text-decoration: none;
+  position: relative;
+}
+
+.example-code {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
+  padding: 9.5px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #fff8f4;
+  border: 1px solid #ffeadd;
+  border-radius: 4px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+
+.example-class-input {
+  width: 300px;
+  height: 30px;
+  border-radius: 3px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  background-color: #fffddb;
+  border: 1px solid #ffca8e;
+  outline: none;
+}
+
+.example-class-input::placeholder {
+  color: #000;
+}
+
+.example-class-result {
+  width: 300px;
+  border-radius: 3px;
+  padding: 0;
+  background-color: #fffddb;
+  border: 1px solid #ffca8e;
+  color: #000;
+}
+
+.example-class-result h3 {
+  margin-left: 5px;
+}
+
+.example-class-result p {
+  padding: 5px;
+}
+
+.example-class-result p:hover {
+  background-color: #fda877;
+}
