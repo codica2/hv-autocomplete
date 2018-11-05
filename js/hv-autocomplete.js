@@ -11,12 +11,12 @@
       var inputClassName = config.inputClassName || "hv-input";
   
       var input = '<input type="text" id="hv-input-' + 
-          $mainDiv.attr('class') + '" class="' + 
+          $mainDiv.attr('id') + '" class="' +
           inputClassName +'" placeholder="' + 
           config.placeholder +'">';
   
       var result = '<div id="hv-result-' + 
-          $mainDiv.attr('class') + '" class="' + 
+          $mainDiv.attr('id') + '" class="' +
           resultClassName + '"></div>';
   
       $mainDiv.css({
@@ -25,8 +25,8 @@
       $mainDiv.append(input);
       $mainDiv.append(result);
     
-      $input = $("#hv-input-" + $mainDiv.attr('class')),
-      $result = $("#hv-result-" + $mainDiv.attr('class'));
+      $input = $("#hv-input-" + $mainDiv.attr('id')),
+      $result = $("#hv-result-" + $mainDiv.attr('id'));
   
       setConfigs();
     };

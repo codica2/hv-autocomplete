@@ -285,7 +285,7 @@ $(document).ready(function(){
     ],
   };
 
-  $(".my-autocomplete-horizontal").HVAutocomplete({
+  $("#horizontal").HVAutocomplete({
     data: data,
     placeholder: "Search...",
     categories: true,
@@ -293,13 +293,13 @@ $(document).ready(function(){
     globalSearch: true
   });
 
-  $(".my-autocomplete-vertical").HVAutocomplete({
+  $("#vertical").HVAutocomplete({
     data: data,
     placeholder: "Search...",
     categories: true
   });
 
-  $(".my-autocomplete-class").HVAutocomplete({
+  $("#class").HVAutocomplete({
     data: data,
     placeholder: "Search...",
     categories: true,
@@ -307,13 +307,7 @@ $(document).ready(function(){
     resultClassName: "example-class-result"
   });
 
-  $(".my-autocomplete-basic").HVAutocomplete({
-    data: countries,
-    placeholder: "Search...",
-    maxLength: 7
-  });
-
-  $(".my-autocomplete-style").HVAutocomplete({
+  $("#styles").HVAutocomplete({
     data: dataWithoutCategory,
     placeholder: "Search...",
     inputStyles: {
@@ -326,7 +320,13 @@ $(document).ready(function(){
     }
   });
 
-  $('.main-example').HVAutocomplete({
+  $('#main-example').HVAutocomplete({
+    data: countries,
+    placeholder: "Search country...",
+    maxLength: 5
+  });
+
+  $('#basics').HVAutocomplete({
     data: countries,
     placeholder: "Search country...",
     maxLength: 5
