@@ -331,4 +331,16 @@ $(document).ready(function(){
     placeholder: "Search country...",
     maxLength: 5
   });
+
+  $('#default-search').HVAutocomplete({
+    data: countries,
+    placeholder: "Search country..."
+  });
+
+  $('#global-search').HVAutocomplete({
+    data: countries,
+    placeholder: "Search country...",
+    maxLength: 5,
+    globalSearch: true
+  });
 });

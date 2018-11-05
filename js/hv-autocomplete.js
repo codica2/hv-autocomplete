@@ -7,6 +7,7 @@
     isMatch = (config.maxLength) ? false : true;
   
     function initialize(){
+
       var resultClassName = config.resultClassName || "hv-result";
       var inputClassName = config.inputClassName || "hv-input";
   
@@ -29,9 +30,11 @@
       $result = $("#hv-result-" + $mainDiv.attr('id'));
   
       setConfigs();
+
     };
   
     function setConfigs(){
+
       var defaultStyles = {
         position: "absolute",
         top: $input.height,
@@ -86,45 +89,63 @@
     };
   
     function buildResult(data){
+
       var isInputEmpty = $input.val(),
       finalDOMResult = "";
       
       if(isInputEmpty){
+
         if(config.categories){
+
           Object.keys(data).forEach(function(nameCategory){
+
             var isHaveCategory = data[nameCategory].length !== 0;
+
             if(isHaveCategory){
+
               var builder = buildCategory(data[nameCategory], nameCategory);
               finalDOMResult += builder ? builder : "";
+
             }
           });
+
           finalDOMResult && $result.html(finalDOMResult);
           $result.show();
         } else {
+
           finalDOMResult += buildList(data);
           $result.html(finalDOMResult);
           $result.show();
+
         }
       } else {
+
         $result.hide();
+
       }
     };
   
     function buildList(data){
+
       var htmlStructureResult = "",
         maxLength = 1;  
     
       data.map(function(elem){
+
         var boldLetters = config.globalSearch ? globalSearch(elem.name) : defaultSearch(elem.name),
           elemHtml =  "<p class='hv-element-no-category'><a href='" + elem.url + "'>"  + 
           boldLetters + 
           "</a></p>";
           
         if(config.maxLength && boldLetters && maxLength <= config.maxLength){
+
           htmlStructureResult += elemHtml;
           maxLength++;
+
         } else if(!config.maxLength &&boldLetters){
+
           htmlStructureResult += elemHtml;
+
         }
       });
   
@@ -132,31 +153,38 @@
     }
   
     function buildCategory(objCategory, nameCategory){
+
       var htmlStructureResult = "";
   
       objCategory.map(function(elem){
+
         var boldLetters = config.globalSearch ? globalSearch(elem.name) : defaultSearch(elem.name),
         elemHtml =  "<p class='hv-element-no-category'>"  + 
         boldLetters + 
         "</p>";
-  
           
         if(config.maxLength && boldLetters && maxLength <= config.maxLength){
+
           htmlStructureResult += elemHtml;
           maxLength++;
+
         } else if(!config.maxLength &&boldLetters){
+
           htmlStructureResult += elemHtml;
+
         }
+
       });
   
-      //hef='" + elem.url + "'
       if(htmlStructureResult !== ""){
+
         var finalDOMResult = "<div class='hv-block-category'>" + 
         "<h3 class='hv-title-category'>" + nameCategory + "</h3>" +
         htmlStructureResult + 
         "</div>";
   
         return finalDOMResult;
+
       }
     };
   
@@ -165,7 +193,7 @@
       var regex = new RegExp("^" + valInput, "ig");
       var replace = str.replace(regex, "<b>$&</b>");
       if(replace !== str){
-        return replace
+        return replace;
       }
     }
   
@@ -204,13 +232,7 @@
       }
     };
   
-    /* ******** LIFE CIVLE ******** */
-  
     initialize();
-  
-    /* ******** LIFE CIVLE ******** */
-  
-    /* ******** EVENTS CIVLE ******** */
   
     $input.on("click", function(){
       if($input.val() !== ""){
@@ -227,8 +249,6 @@
         $result.hide();
       }
     });
-  
-    /* ******** EVENTS CIVLE ******** */
   };
 })( jQuery );
 
@@ -236,17 +256,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-  /* ==================== ASINC REQUESTS ==================== */
+  /* ==================== ASINC REQUESTS, NOW DONT USE ==================== */
 
 $(document).ready(function(){
   var $input = $("#search-place"),
