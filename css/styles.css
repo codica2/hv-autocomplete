@@ -128,11 +128,11 @@ a:hover {
 }
 
 .right-side {
-  max-width: 680px;
+  max-width: 680px s !important;
 }
 
 .left-side {
-  width: 150px;
+  width: 280px;
 }
 
 .container-margin-top {

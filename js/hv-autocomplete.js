@@ -2,23 +2,21 @@
   $.fn.HVAutocomplete = function(config){
     var $mainDiv = this,
     data = config.data,
+    isMatch = (config.maxLength) ? false : true,
     $input,
     $result,
-    isMatch = (config.maxLength) ? false : true;
-  
-    function initialize(){
+    blockResult = [];
 
-      var resultClassName = config.resultClassName || "hv-result";
-      var inputClassName = config.inputClassName || "hv-input";
+    function initialize(){
+      var input = document.createElement("input");
+      input.setAttribute("type", "text");
+      input.setAttribute("id", "hv-input-" + $mainDiv.attr('id'));
+      input.setAttribute("class", config.inputClassName || defaultConfig.inputClassName);
+      input.setAttribute("placeholder", config.placeholder || "");
   
-      var input = '<input type="text" id="hv-input-' + 
-          $mainDiv.attr('id') + '" class="' +
-          inputClassName +'" placeholder="' + 
-          config.placeholder +'">';
-  
-      var result = '<div id="hv-result-' + 
-          $mainDiv.attr('id') + '" class="' +
-          resultClassName + '"></div>';
+      var result = document.createElement("div");
+      result.setAttribute("id", "hv-result-" + $mainDiv.attr('id'));
+      result.setAttribute("class", config.resultClassName || defaultConfig.resultClassName);
   
       $mainDiv.css({
         position: "relative"
@@ -26,15 +24,13 @@
       $mainDiv.append(input);
       $mainDiv.append(result);
     
-      $input = $("#hv-input-" + $mainDiv.attr('id')),
-      $result = $("#hv-result-" + $mainDiv.attr('id'));
+      $input = $(input),
+      $result = $(result);
   
-      setConfigs();
-
+      setStylesConfigs();
     };
   
-    function setConfigs(){
-
+    function setStylesConfigs(){
       var defaultStyles = {
         position: "absolute",
         top: $input.height,
@@ -44,7 +40,7 @@
         backgroundColor: "#fff"
       },
       styles = {},
-      stylesInput = {};
+      inputStyles = {};
   
       if(config.inputClassName && config.resultClassName){
         $result.css({
@@ -79,113 +75,107 @@
   
       if(config.inputStyles){
         for(var key in config.inputStyles){
-          stylesInput[key] = config.inputStyles[key];
+          inputStyles[key] = config.inputStyles[key];
         }
-        $input.css(stylesInput);
+        $input.css(inputStyles);
       }
      
       $result.css(styles);
       $result.hide();
     };
-  
-    function buildResult(data){
 
-      var isInputEmpty = $input.val(),
-      finalDOMResult = "";
-      
+    function buildResultBlock(data){
+      var isInputEmpty = $input.val();
+      blockResult = [];
+
       if(isInputEmpty){
-
         if(config.categories){
+          blockResult = createBlockResultWithCategory(data);
 
-          Object.keys(data).forEach(function(nameCategory){
-
-            var isHaveCategory = data[nameCategory].length !== 0;
-
-            if(isHaveCategory){
-
-              var builder = buildCategory(data[nameCategory], nameCategory);
-              finalDOMResult += builder ? builder : "";
-
-            }
-          });
-
-          finalDOMResult && $result.html(finalDOMResult);
-          $result.show();
+          $result.html(blockResult);
+          if(blockResult.length !== 0){
+            $result.show();
+          }
         } else {
-
-          finalDOMResult += buildList(data);
-          $result.html(finalDOMResult);
+          $result.html(buildDefaultResult(data));
           $result.show();
-
         }
       } else {
-
         $result.hide();
-
       }
     };
-  
-    function buildList(data){
 
-      var htmlStructureResult = "",
-        maxLength = 1;  
-    
-      data.map(function(elem){
+    function createBlockResultWithCategory(data){
+      var result = [],
+      keysData = Object.keys(data);
 
-        var boldLetters = config.globalSearch ? globalSearch(elem.name) : defaultSearch(elem.name),
-          elemHtml =  "<p class='hv-element-no-category'><a href='" + elem.url + "'>"  + 
-          boldLetters + 
-          "</a></p>";
-          
-        if(config.maxLength && boldLetters && maxLength <= config.maxLength){
-
-          htmlStructureResult += elemHtml;
-          maxLength++;
-
-        } else if(!config.maxLength &&boldLetters){
-
-          htmlStructureResult += elemHtml;
-
+      for(var i = 0; i < keysData.length; i++){
+        var isHaveCategory = data[keysData[i]].length !== 0;
+        if(isHaveCategory){
+          var buildResult = buildListWithCategory(data[keysData[i]], keysData[i]);
+          if(buildResult){
+            result.push(buildResult);
+          }
         }
-      });
-  
-      return htmlStructureResult;
+      }
+
+      return result;
+    }
+
+    function buildDefaultResult(data){
+      var maxLength = 1,
+        list = [];
+
+      for(var key in data){
+        if(config.maxLength && maxLength > config.maxLength){
+          break;
+        }
+        
+        var isFindWord = config.globalSearch 
+        ? globalSearch(data[key].name) 
+        : defaultSearch(data[key].name);
+
+        var link = document.createElement("a");
+          link.setAttribute("href", data[key].url);
+          link.innerHTML = isFindWord;
+      
+        var p = document.createElement("p");
+          p.setAttribute("class", "hv-element-no-category");
+          p.append(link);
+
+        if(config.maxLength && isFindWord && maxLength <= config.maxLength){
+          list.push(p);
+          maxLength++;
+        } else if (!config.maxLength && isFindWord){
+          list.push(p);
+        }
+      }
+      return list;
     }
   
-    function buildCategory(objCategory, nameCategory){
+    function buildListWithCategory(data, nameCategory){
 
-      var htmlStructureResult = "";
-  
-      objCategory.map(function(elem){
+      var list = buildDefaultResult(data);
 
-        var boldLetters = config.globalSearch ? globalSearch(elem.name) : defaultSearch(elem.name),
-        elemHtml =  "<p class='hv-element-no-category'>"  + 
-        boldLetters + 
-        "</p>";
+      if(list.length !== 0){
+
+        var h3 = document.createElement("h3");
+          h3.setAttribute("class", "hv-title-category");
+          h3.innerHTML = nameCategory;
+
+        list.unshift(h3);
+
+        var div = document.createElement("div");
+          div.setAttribute("class", "hv-block-category");
+
+          for(var i = 0; i < list.length; i++){
+            div.appendChild(list[i]);
+          }
           
-        if(config.maxLength && boldLetters && maxLength <= config.maxLength){
-
-          htmlStructureResult += elemHtml;
-          maxLength++;
-
-        } else if(!config.maxLength &&boldLetters){
-
-          htmlStructureResult += elemHtml;
-
-        }
-
-      });
-  
-      if(htmlStructureResult !== ""){
-
-        var finalDOMResult = "<div class='hv-block-category'>" + 
-        "<h3 class='hv-title-category'>" + nameCategory + "</h3>" +
-        htmlStructureResult + 
-        "</div>";
-  
-        return finalDOMResult;
-
+        return div;
       }
+      
+      return null;
     };
   
     function defaultSearch(str){
@@ -233,15 +223,15 @@
     };
   
     initialize();
-  
+
     $input.on("click", function(){
-      if($input.val() !== ""){
+      if(blockResult.length !== 0){
         $result.show();
       }
     });
   
     $input.keyup(function(){
-      buildResult(data);
+      buildResultBlock(data);
     });
   
     $(document).mouseup(function(e) {
