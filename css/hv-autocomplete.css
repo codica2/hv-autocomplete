@@ -2,12 +2,6 @@
   box-sizing: border-box;
   width: 100%;
   font-size: 24px;
-}
-
-.hv-input {
-  box-sizing: border-box;
-  width: 100%;
-  font-size: 24px;
   border-radius: 3px;
   padding-left: 15px;
   border: solid 1px #ff8742;
@@ -16,6 +10,9 @@
   outline: none;
   font-weight: 100;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  width: 300px !important;
+  font-size: 24px;
 }
 
 .hv-input:focus {
@@ -28,10 +25,12 @@
 }
 
 .hv-result {
+  position: relative;
+  z-index: 1;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
   justify-content: space-around;
-  padding: 10px;
   box-sizing: border-box;
+  width: 300px !important;
   max-height: 200px;
   overflow-y: auto;
 }

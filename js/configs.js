@@ -285,62 +285,68 @@ $(document).ready(function() {
     ]
   };
 
-  $("#horizontal").HVAutocomplete({
-    data: data,
-    placeholder: "Search...",
-    categories: true,
-    displayHorizontal: true,
-    globalSearch: true
-  });
+  // $("#horizontal").HVAutocomplete({
+  //   data: data,
+  //   placeholder: "Search...",
+  //   categories: true,
+  //   displayHorizontal: true,
+  //   globalSearch: true
+  // });
 
-  $("#vertical").HVAutocomplete({
-    data: data,
-    placeholder: "Search...",
-    categories: true
-  });
+  // $("#vertical").HVAutocomplete({
+  //   data: data,
+  //   placeholder: "Search...",
+  //   categories: true
+  // });
 
-  $("#class").HVAutocomplete({
-    data: data,
-    placeholder: "Search...",
-    categories: true,
-    inputClassName: "example-class-input",
-    resultClassName: "example-class-result"
-  });
+  // $("#class").HVAutocomplete({
+  //   data: data,
+  //   placeholder: "Search...",
+  //   categories: true,
+  //   inputClassName: "example-class-input",
+  //   resultClassName: "example-class-result"
+  // });
 
-  $("#styles").HVAutocomplete({
-    data: dataWithoutCategory,
-    placeholder: "Search...",
-    inputStyles: {
-      paddingLeft: "30px",
-      width: 300
-    },
-    resultStyles: {
-      backgroundColor: "#efefef",
-      width: 300
-    }
-  });
+  // $("#styles").HVAutocomplete({
+  //   data: dataWithoutCategory,
+  //   placeholder: "Search...",
+  //   inputStyles: {
+  //     paddingLeft: "30px",
+  //     width: 300
+  //   },
+  //   resultStyles: {
+  //     backgroundColor: "#efefef",
+  //     width: 300
+  //   }
+  // });
 
-  $("#main-example").HVAutocomplete({
+  // $("#main-example").HVAutocomplete({
+  //   data: countries,
+  //   placeholder: "Search country...",
+  //   maxLength: 5
+  // });
+
+  // $("#basics").HVAutocomplete({
+  //   data: countries,
+  //   placeholder: "Search country...",
+  //   maxLength: 5
+  // });
+
+  // $("#default-search").HVAutocomplete({
+  //   data: countries,
+  //   placeholder: "Search country..."
+  // });
+
+  // $("#global-search").HVAutocomplete({
+  //   data: countries,
+  //   placeholder: "Search country...",
+  //   maxLength: 5,
+  //   globalSearch: true
+  // });
+
+  new HVAutocomplete({
     data: countries,
-    placeholder: "Search country...",
+    input: document.querySelector("#main"),
     maxLength: 5
-  });
-
-  $("#basics").HVAutocomplete({
-    data: countries,
-    placeholder: "Search country...",
-    maxLength: 5
-  });
-
-  $("#default-search").HVAutocomplete({
-    data: countries,
-    placeholder: "Search country..."
-  });
-
-  $("#global-search").HVAutocomplete({
-    data: countries,
-    placeholder: "Search country...",
-    maxLength: 5,
-    globalSearch: true
   });
 });
