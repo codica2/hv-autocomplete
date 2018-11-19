@@ -73,6 +73,11 @@ a:hover {
   list-style: none;
 }
 
+.input-header-container {
+  max-width: 834px;
+  margin: 0 auto;
+}
+
 .container-header {
   max-width: 834px;
   margin: 0 auto;
@@ -81,7 +86,8 @@ a:hover {
 }
 
 .container-header .about {
-  width: 60%;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .container-header .about > p {
@@ -309,4 +315,11 @@ table td {
 
 .table-header-default-value {
   width: 100px;
+}
+
+.my-autocomplete {
+  z-index: 1;
+  justify-content: space-around;
+  max-width: 800px;
+  background-color: #fff;
 }

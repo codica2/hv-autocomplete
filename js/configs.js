@@ -345,8 +345,10 @@ $(document).ready(function() {
   // });
 
   new HVAutocomplete({
-    data: countries,
-    input: document.querySelector("#main"),
-    maxLength: 5
+    data: data,
+    globalSearch: true,
+    categories: true,
+    displayHorizontal: true,
+    input: document.querySelector("#main")
   });
 });

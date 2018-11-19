@@ -7,8 +7,8 @@ class HVAutocomplete {
     this.divWrap;
 
     this.defaultConfig = {
-      resultClass: "hv-result" || config.resultClass,
-      inputClass: "hv-shell",
+      resultClass: config.resultClass ? config.resultClass : "hv-result",
+      inputClass: config.inputClass ? config.inputClass : "hv-shell",
       prefix: this.input.getAttribute("id") || this.input.getAttribute("class")
     };
 
@@ -54,32 +54,30 @@ class HVAutocomplete {
       categories
     } = this.config;
 
-    const DEFAULT_WIDTH = "200px";
-
     const DEFAULT_STYLES_RESULT = {
       position: "absolute",
       top: this.input.clientHeight,
-      width: DEFAULT_WIDTH,
       left: "0px",
       display: "none",
       backgroundColor: "#fff",
       boxSizing: "border-box"
     };
+
     const DEFAULT_STYLES_INPUT = {
-      width: DEFAULT_WIDTH,
       boxSizing: "border-box"
     };
 
     let newResultStyles = {};
 
     if (resultClass) {
-      const STYLES_IF_HAS_CLASS = {
+      const STYLES_IF_HAVE_CLASS = {
         position: "absolute",
         top: this.input.clientHeight,
         left: "0px",
         display: "none"
       };
-      this.setStyles(this.divResult, STYLES_IF_HAS_CLASS);
+
+      this.setStyles(this.divResult, STYLES_IF_HAVE_CLASS);
     } else {
       this.setStyles(this.divResult, DEFAULT_STYLES_RESULT);
     }
@@ -119,13 +117,15 @@ class HVAutocompleteEvents {
     this.divResult = divResult;
     this.divWrap = divWrap;
     this.config = config;
+    this.result;
+    this.isMatch = config.maxLength ? false : true;
 
-    input.addEventListener("click", () => {
-      this.buildResultBlock(data);
+    input.addEventListener("mousedown", () => {
+      this.lifeCicle(data);
     });
 
     input.addEventListener("keyup", () => {
-      this.buildResultBlock(data);
+      this.lifeCicle(data);
     });
 
     this.clickOutBlock(divResult);
@@ -154,21 +154,23 @@ class HVAutocompleteEvents {
       window.event.cancelBubble = true;
     }
 
-    this.divResult.style.display = "block";
+    this.divResult.style.display = this.result
+      ? this.checkHorizontalConfig()
+      : "none";
   }
 
-  buildResultBlock(data) {
+  lifeCicle(data) {
     this.resetChildNodes();
-    let isInputEmpty = this.input.value,
-      result;
 
-    if (isInputEmpty) {
+    let isInputEmpty = this.input.value;
+
+    if (isInputEmpty || this.config.globalSearch) {
       if (this.config.categories) {
-        result = this.createBlockResultWithCategory(data);
+        this.result = this.createWithCategoryResult(data);
       } else {
-        result = this.buildDefaultResult(data);
+        this.result = this.createDefaultResult(data);
       }
-      this.renderResult(result);
+      this.renderResult(this.result);
     } else {
       this.divResult.style.display = "none";
     }
@@ -179,19 +181,24 @@ class HVAutocompleteEvents {
       for (let i = 0; i < result.length; i++) {
         this.divResult.appendChild(result[i]);
       }
-      this.divResult.style.display = "block";
+      this.divResult.style.display = this.checkHorizontalConfig();
     } else {
       this.divResult.style.display = "none";
     }
   }
 
+  checkHorizontalConfig() {
+    return this.config.displayHorizontal ? "flex" : "block";
+  }
+
   resetChildNodes() {
+    this.result = null;
     while (this.divResult.firstChild) {
       this.divResult.removeChild(this.divResult.firstChild);
     }
   }
 
-  createBlockResultWithCategory(data) {
+  createWithCategoryResult(data) {
     let result = [],
       keysData = Object.keys(data);
 
@@ -213,7 +220,7 @@ class HVAutocompleteEvents {
     return result;
   }
 
-  buildDefaultResult(data) {
+  createDefaultResult(data) {
     const { maxLength } = this.config;
     let count = 1,
       list = [];
@@ -232,7 +239,7 @@ class HVAutocompleteEvents {
       link.innerHTML = findWord;
 
       let p = document.createElement("p");
-      p.setAttribute("class", "hv-element-no-category");
+      p.setAttribute("class", this.setUnicClass("element-no-category"));
       p.append(link);
 
       if (maxLength && findWord && count <= maxLength) {
@@ -247,17 +254,17 @@ class HVAutocompleteEvents {
   }
 
   buildListWithCategory(data, nameCategory) {
-    let list = this.buildDefaultResult(data);
+    let list = this.createDefaultResult(data);
 
     if (list.length !== 0) {
       let h3 = document.createElement("h3");
-      h3.setAttribute("class", "hv-title-category");
+      h3.setAttribute("class", this.setUnicClass("title-category"));
       h3.innerHTML = nameCategory;
 
       list.unshift(h3);
 
       let div = document.createElement("div");
-      div.setAttribute("class", "hv-block-category");
+      div.setAttribute("class", this.setUnicClass("block-category"));
 
       for (let i = 0; i < list.length; i++) {
         div.appendChild(list[i]);
@@ -266,6 +273,12 @@ class HVAutocompleteEvents {
       return div;
     }
     return null;
+  }
+
+  setUnicClass(className) {
+    return this.config.resultClass
+      ? `${this.config.resultClass}-${className}`
+      : `hv-${className}`;
   }
 
   defaultSearch(str) {
@@ -279,7 +292,7 @@ class HVAutocompleteEvents {
   }
 
   globalSearch(str) {
-    let valInputArr = $input.val().split(" "),
+    let valInputArr = this.input.value.split(" "),
       strArr = str.split(" "),
       res = [],
       isChanged = false;
@@ -292,7 +305,10 @@ class HVAutocompleteEvents {
           let regex = new RegExp("\\b" + valInputArr[i], "i");
 
           if (strArr[j].search(regex) !== -1) {
-            let replace = strArr[j].replace(regex, "<b>$&</b>");
+            let replace = strArr[j].replace(
+              regex,
+              "<b style='color: #ff5e00'>$&</b>"
+            );
             res.push(replace);
             isHaveWord = false;
             isChanged = true;
@@ -310,7 +326,7 @@ class HVAutocompleteEvents {
       return res.join(" ");
     }
 
-    if (isMatch) {
+    if (this.isMatch) {
       return res.join(" ");
     }
   }
