@@ -93,6 +93,28 @@ HV-Autocomplete get two data types: **default**, **for categories**.
 }
 ```
 
+## Acync get data
+
+If you want to load your asynchronous data you can pass function to option `data`. Function must return object of shape. See example below.
+
+```javascript
+var options = {
+  input: document.querySelector("#main"),
+  asyncData: function(input) {
+    return {
+      method: "GET",
+      url: "/search/data.json?query=" + input.value,
+      success: function(response) {
+        console.log(response);
+      }
+    };
+  }
+};
+
+new HVAutocomplete(options);
+```
+
+
 ## Categories
 
 With HV-Autocomplete you can separate your data to categories. For this use `categories: true` option.

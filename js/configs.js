@@ -761,8 +761,16 @@ var categories = {
 };
 
 var options = {
-  data: data,
-  input: document.querySelector("#main")
+  data: categories,
+  input: document.querySelector("#main"),
+  horizontal: true
+};
+
+let $input = document.querySelector("#main");
+
+var options2 = {
+  input: document.querySelector("#main"),
+  data: ""
 };
 
 new HVAutocomplete(options);

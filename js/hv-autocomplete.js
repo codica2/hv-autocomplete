@@ -6,15 +6,10 @@ class HVAutocomplete {
     this.divResult;
     this.divWrap;
 
-    let statusError = this.checkOnType(this.config);
-
-    if (statusError !== "error") {
-      this.initialize(config);
-    }
+    this.checkOnType(this.config);
   }
 
   checkOnType(config) {
-    let error = false;
     let headerError = "HV-Autcomplete crash :(\n\n";
 
     for (let key in config) {
@@ -25,94 +20,75 @@ class HVAutocomplete {
 
           if (typeof config[key] === "object") isChecked = true;
 
+          if (typeof config[key] === "function") isChecked = true;
+
           if (!isChecked) {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "data" must be a Object or Array!\n Please, check your type data.'
+                ' Option "data" must be an Object or Array!\n Please, check on correctly data types.'
             );
           }
           break;
         case "input":
           if (config.input.tagName !== "INPUT") {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "input" must be DOM Element <input />!\n Please, check your type data.'
+                ' Option "input" must be DOM Element <input />!\n Please, check on correctly data types.'
             );
           }
           break;
-        case "maxLength":
-          if (typeof config.maxLength !== "number") {
-            error = true;
-            console.error(
+        case "maxOptions":
+          if (typeof config.maxOptions !== "number") {
+            throw new Error(
               headerError +
-                ' Option "maxLength" must be a Number!\n Please, check your type data.'
-            );
-          }
-          break;
-        case "maxLength":
-          if (typeof config.maxLength !== "number") {
-            error = true;
-            console.error(
-              headerError +
-                ' Option "maxLength" must be a Number!\n Please, check your type data.'
+                ' Option "maxOptions" must be a Number!\n Please, check on correctly data types.'
             );
           }
           break;
         case "horizontal":
           if (typeof config.horizontal !== "boolean") {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "horizontal" must be a Boolean!\n Please, check your type data.'
+                ' Option "horizontal" must be a Boolean!\n Please, check on correctly data types.'
             );
           }
           break;
         case "globalSearch":
           if (typeof config.globalSearch !== "boolean") {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "globalSearch" must be a Boolean!\n Please, check your type data.'
+                ' Option "globalSearch" must be a Boolean!\n Please, check on correctly data types.'
             );
           }
           break;
         case "resultClass":
           if (typeof config.resultClass !== "string") {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "resultClass" must be a String!\n Please, check your type data.'
+                ' Option "resultClass" must be a String!\n Please, check on correctly data types.'
             );
           }
           break;
         case "resultStyles":
           if (typeof config.resultStyles !== "object") {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "resultStyles" must be a Object!\n Please, check your type data.'
+                ' Option "resultStyles" must be a Object!\n Please, check on correctly data types.'
             );
           }
           break;
         case "onOptionClick":
           if (typeof config.onOptionClick !== "function") {
-            error = true;
-            console.error(
+            throw new Error(
               headerError +
-                ' Option "onOptionClick" must be a Function!\n Please, check your type data.'
+                ' Option "onOptionClick" must be a Function!\n Please, check on correctly data types.'
             );
           }
           break;
       }
     }
 
-    if (error) {
-      return "error";
-    }
-
-    return "ok";
+    return this.initialize(config);
   }
 
   initialize(config) {
@@ -120,7 +96,7 @@ class HVAutocomplete {
       this.defaultConfig = {
         resultClass: config.resultClass ? config.resultClass : "hv-result",
         inputClass: config.inputClass ? config.inputClass : "hv-shell",
-        maxLength: config.maxLength === undefined ? 5 : config.maxLength,
+        maxOptions: config.maxOptions === undefined ? 5 : config.maxOptions,
         onOptionClick: config.onOptionClick && config.onOptionClick,
         prefix:
           this.input.getAttribute("id") || this.input.getAttribute("class")
@@ -173,6 +149,7 @@ class HVAutocomplete {
     const DEFAULT_STYLES_RESULT = {
       position: "absolute",
       top: this.input.clientHeight,
+      width: this.input.clientWidth + "px",
       left: "0px",
       display: "none",
       backgroundColor: "#fff",
@@ -210,12 +187,7 @@ class HVAutocomplete {
       this.setStyles(this.divResult, resultStyles);
     }
 
-    if (inputStyles) {
-      this.setStyles(this.input, inputStyles);
-    } else {
-      this.setStyles(this.input, DEFAULT_STYLES_INPUT);
-    }
-
+    this.setStyles(this.input, DEFAULT_STYLES_INPUT);
     this.divResult.style.display = "none";
   }
 
@@ -241,10 +213,44 @@ class HVAutocompleteEvents {
     });
 
     input.addEventListener("keyup", () => {
-      this.lifeCicle(data);
+      if (typeof data === "function") {
+        this.asyncRequest(data(this.input));
+      } else {
+        this.lifeCicle(data);
+      }
     });
 
     this.clickOutBlock(divResult);
+  }
+
+  asyncRequest(data) {
+    const url = data.url;
+    const method = data.method;
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        const response = xhttp.responseText;
+        data.success && data.success(response);
+
+        let isChecked;
+        if (Array.isArray(response)) isChecked = true;
+
+        if (typeof response === "object") isChecked = true;
+
+        if (!isChecked) {
+          console.error(
+            'HV-Autcomplete crash :(\n\n Option "data" must be a Object or Array!\n Please, check your type data.'
+          );
+        } else if (this.status !== 200) {
+          this.lifeCicle(response);
+        }
+      }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.send();
   }
 
   clickOutBlock(divResult) {
@@ -340,13 +346,13 @@ class HVAutocompleteEvents {
   }
 
   createDefaultResult(data, type, nameCategory) {
-    const { maxLength, onOptionClick } = this.defaultConfig;
+    const { maxOptions, onOptionClick } = this.defaultConfig;
 
     let count = 1,
       list = [];
 
     for (let key in data) {
-      if (maxLength && count > maxLength) {
+      if (maxOptions && count > maxOptions) {
         break;
       }
 
@@ -356,6 +362,7 @@ class HVAutocompleteEvents {
 
       let link = document.createElement("a");
       link.setAttribute("class", this.setUnicClass("element-" + type));
+      link.style.display = "block";
       if (data[key].url) {
         link.setAttribute("href", data[key].url);
       }
@@ -371,10 +378,10 @@ class HVAutocompleteEvents {
         };
       }
 
-      if (maxLength && findWord && count <= maxLength) {
+      if (maxOptions && findWord && count <= maxOptions) {
         list.push(link);
         count++;
-      } else if (!maxLength && findWord) {
+      } else if (!maxOptions && findWord) {
         list.push(link);
       }
     }
@@ -394,7 +401,7 @@ class HVAutocompleteEvents {
     let div = document.createElement("div");
     div.setAttribute("class", this.setUnicClass("block-category"));
 
-    let length = this.config.maxLength ? this.config.maxLength : list.length;
+    let length = this.config.maxOptions ? this.config.maxOptions : list.length;
 
     if (length < 3) {
       length = 3;
