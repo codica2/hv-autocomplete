@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HV-Autocomplete</title>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
+  <script src="js/hv-autocomplete.js"></script>
+  <script src="js/configs.js"></script>
+  <script src="js/scroll.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/hv-autocomplete.css">
+</head>
+
+<body>
+  <header>
+    <div class="container head">
+      <h1 class="logo">Hv-Autocomplete</h1>
+    </div>
+  </header>
+
+  <div class="about-header about-link" id="about">
+    <div class="container-header">
+      <div class="about">
+        <p><b style="font-weight: 500">HV-Autocomplete</b> is the most flexible autoсomplete for design and developers.
+          You can do something more then
+          with another autoсomplets. Firstly goal HV-Autocomplete is you may do <a href="#categories">Horizontal</a>
+          or <a href="#categories">Vertical</a> search results.
+        </p>
+      </div>
+    </div>
+    <div class="input-header-container">
+        <input id="main" class="hv-input" placeholder="Search..."/>
+    </div>
+  </div>
+
+  <div class="container container-margin-top">
+
+    <div class="left-side">
+      <div class="nav-bar" id="nav-bar">
+        <ul>
+          <li><a id="about-link" class="menu-link on-page">About</a></li>
+          <li>
+            <a id="getting-started-link" class="menu-link">
+              Getting started
+            </a>
+          </li>
+          <li><a id="basic-link" class="menu-link">Basics</a></li>
+          <li><a id="search-link" class="menu-link">Search</a></li>
+          <li><a id="styling-link" class="menu-link">Styling</a></li>
+          <li><a id="categories-link" class="menu-link">Categories</a></li>
+          <li><a id="api-link" class="menu-link">API</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="right-side">
+      <h1 class="title-group getting-started-link" id="getting-started">Getting started</h1>
+      <div class="letter">
+        <div class="description">
+          <h4><b style="font-weight: 500">Include JS and CSS files</b></h4>
+          <ol>
+            <li><a href="#">Download</a> <b style="font-weight: 500">HV-Autocomplete</b> plugin js and css files.</li>
+            <li>Add these files in header section of your page.</li>
+          </ol>
+          <pre class="example-code">
+&lt;!-- JS file --&gt;
+&lt;script src="path/to/jquery.hv-autocomplete.js"&gt;&lt;/script&gt;
+
+&lt;!-- CSS file --&gt;
+&lt;link rel="stylesheet" href="path/to/hv-autocomplete.css"&gt;</pre>
+          <p>HV-Autocomplete is dependent from <a href="https://jquery.com/download/">jQuery</a>. Please add jQuery
+            file or use CDN server.</p>
+          <pre class="example-code">
+&lt;!-- Using jQuery with a CDN --&gt;
+&lt;script src="//code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;</pre>
+        </div>
+      </div>
+
+      <h1 class="title-group basic-link" id="basic">Basic</h1>
+      <div class="letter">
+        <div class="description">
+          <p>
+            HV-Autocomplete plugin is very simple to use. Just call function
+            <code>HVAutocomplete</code> on a <br><code>&lt;div id="basic"&gt;&lt;/div&gt;</code>
+            field and
+            give it a list of elements to display.
+          </p>
+          <h3>Example</h3>
+          <div id="basics"></div>
+          <h3>HTML</h3>
+          <pre class="example-code">
+  &lt;div id="basics"&gt;&lt;/div&gt;</pre>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: countries,
+    placeholder: "Search country...",
+    maxLength: 5
+  };
+
+  $('#basics').HVAutocomplete(options);</pre>
+        </div>
+      </div>
+
+      <h1 class="title-group search-link" id="search">Search</h1>
+      <div class="letter">
+        <div class="description">
+          <p>HV-Autocomplete has two search methods for your convenience.</p>
+          <h2>Default search</h2>
+          <p>
+            If you want to use default search just use default options. Is very simple.
+          </p>
+          <div id="default-search">
+          </div>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: countries,
+    placeholder: "Search country..."
+  };
+
+  $('#default-search').HVAutocomplete(options);</pre>
+        </div>
+        <div class="description">
+          <h2>Global search</h2>
+          <p>
+            Global search looking all matches after space. For this search use <code>globalSearch: true</code>
+          </p>
+          <div id="global-search">
+          </div>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: countries,
+    placeholder: "Search country...",
+    maxLength: 5,
+    globalSearch: true
+  };
+  
+  $('#basics').HVAutocomplete(options);</pre>
+        </div>
+      </div>
+
+      <h1 class="title-group styling-link" id="styling">Styling</h1>
+      <div class="letter">
+        <div class="description">
+          <h2>Class</h2>
+          <p>We tried to make the most convenient to stylize your autocomplete.
+            So, you can add yourself class for input and result. Just add two options is
+            <code>inputClassName</code> and/or <code>resultClassName</code>.
+          </p>
+          <div id="class">
+          </div>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: data,
+    placeholder: "Search...",
+    categories: true,
+    inputClassName: "example-class-input",
+    resultClassName: "example-class-result"
+  };
+
+  $("#class").HVAutocomplete(options);</pre>
+          <h3>CSS</h3>
+          <pre class="example-code">
+  /* Your CSS code */</pre>
+        </div>
+        <div class="description">
+          <h2>Style</h2>
+          <p>Same you can add style in tag with help <code>inputStyles</code> and/or <code>resultStyles</code> options</p>
+          <div id="styles">
+          </div>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: data,
+    placeholder: "Search...",
+    inputStyles: {
+    paddingLeft: "30px",
+    width: 300
+    },
+    resultStyles: {
+    backgroundColor: "#efefef",
+    width: 300}
+  };
+
+  $("#styles").HVAutocomplete(options);</pre>
+        </div>
+      </div>
+
+      <h1 class="title-group categories-link" id="categories">Categories</h1>
+      <div class="letter">
+        <div class="description">
+          <p>With HV-Autocomplete you can separate your data to categories. For this use <br><code>categories: true</code>
+            option.</p>
+          <h2>Vertical</h2>
+          <p>If you want to get vertical(common) autocomplete, just use default options.</p>
+          <div id="vertical">
+          </div>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: data,
+    placeholder: "Search...",
+    categories: true
+  };
+  
+  $("#vertical").HVAutocomplete(options);</pre>
+        </div>
+        <div class="description">
+          <h2>Horizontal</h2>
+          <p>We want that user can use HV-Autocomplete in horizontal orientation. For this simple add <code>displayHorizontal: true</code>
+            options. Same you can use your classes. See example above.</p>
+          <div id="horizontal">
+          </div>
+          <h3>JS</h3>
+          <pre class="example-code">
+  var options = {
+    data: data,
+    placeholder: "Search...",
+    categories: true,
+    displayHorizontal: true,
+    globalSearch: true
+  };
+
+  $("#horizontal").HVAutocomplete(options);</pre>
+        </div>
+      </div>
+      <h1 class="title-group api-link" id="api">API</h1>
+      <div class="letter">
+        <div class="description">
+          <table>
+            <tr>
+              <th>Option</th>
+              <th class="table-header-default-value">Default value</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td><code>data</code></td>
+              <td><code>null</code></td>
+              <td><code>object</code></td>
+              <td class="description-table">Format <code>data</code>: <br>
+                <pre class="example-code table">
+[
+  {name: "name", url: "url"},
+  {name: "name2", url: "url2"}
+]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td><code>placeholder</code></td>
+              <td><code>" "</code></td>
+              <td><code>string</code></td>
+              <td class="description-table">Set placeholder for input.</td>
+            </tr>
+            <tr>
+              <td><code>maxLength</code></td>
+              <td><code>not limited</code></td>
+              <td><code>number</code></td>
+              <td class="description-table">Set maximum search result.</td>
+            </tr>
+            <tr>
+              <td><code>globalSearch</code></td>
+              <td><code>false</code></td>
+              <td><code>boolean</code></td>
+              <td class="description-table"><code>true</code> : search all matches after space; <br>
+                <code>false</code> : default search.
+              </td>
+            </tr>
+            <tr>
+              <td><code>inputClassName</code><br></td>
+              <td><code>" "</code></td>
+              <td><code>string</code></td>
+              <td class="description-table">Set class for input.<br>
+                <code>empty string</code> : set default class name; <br>
+                <code>"your-class"</code> : change default class to your.
+              </td>
+            </tr>
+            <tr>
+              <td><code>resultClassName</code><br></td>
+              <td><code>" "</code></td>
+              <td><code>string</code></td>
+              <td class="description-table">Set class for result.<br>
+                <code>empty string</code> : set default class name; <br>
+                <code>"your-class"</code> : change default class to your.
+              </td>
+            </tr>
+            <tr>
+              <td><code>inputStyles</code><br></td>
+              <td><code>null</code></td>
+              <td><code>object</code></td>
+              <td class="description-table">Set inline styles for input.<br>
+                <code>null</code> : set default inline styles; <br>
+                <code>object</code> : cahnge default inline styles to your.
+              </td>
+            </tr>
+            <tr>
+              <td><code>resultStyles</code><br></td>
+              <td><code>null</code></td>
+              <td><code>object</code></td>
+              <td class="description-table">Set inline styles for result.<br>
+                <code>null</code> : set default inline styles; <br>
+                <code>object</code> : cahnge default inline styles to your.
+              </td>
+            </tr>
+            <tr>
+              <td><code>categories</code><br></td>
+              <td><code>false</code></td>
+              <td><code>boolean</code></td>
+              <td class="description-table">
+                <code>true</code> : set categories for autocomplete; <br>
+                <code>false</code> : set default list. <br>
+                Format <code>data</code> for categories:<br>
+                <pre class="example-code table">
+{
+  bmw: [
+    {name: "I8", url: "url"},
+    {name: "X5", url: "url"}
+  ],
+  mersedes: [
+    {name: "SLK", url: "url"},
+    {name: "Citan", url: "url"}
+  ]
+}</pre>
+                <div class="warning-block">
+                  <img class="warning-img" src="img/warning.png" alt="warning"><code class="warning">Name category get from name array.</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><code>displayHorizontal</code><br></td>
+              <td><code>false</code></td>
+              <td><code>boolean</code></td>
+              <td class="description-table">You can use this option only if you use <code>categories</code> option.<br>
+                <code>true</code> : set your autocomplete horizontal <br>(adding inline style <code>display: flex</code>);
+                <br>
+                <code>object</code> : cahnge default inline styles to your.
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

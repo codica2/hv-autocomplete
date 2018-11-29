@@ -224,24 +224,6 @@ div.hv-result
         └── a.hv-element-with-category  => option
 ```
 
-## Event `onOptionClick`
-
-This event is calling when click on option and return `event`, `name`, `url`, `nameCategory` parameters.
-
-<h4>Example</h4>
-
-```javascript
-var options = {
-  input: document.querySelector("#input"),
-  data: data,
-  onOptionClick: function(event, name, url, nameCategory){
-    console.log(name);
-  }
-};
-
-new HVAutocomplete(options);
-```
-
 ## API
 
 | Options         | Default value | Type             | Description                                  |

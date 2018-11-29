@@ -6,27 +6,140 @@ class HVAutocomplete {
     this.divResult;
     this.divWrap;
 
-    this.defaultConfig = {
-      resultClass: config.resultClass ? config.resultClass : "hv-result",
-      inputClass: config.inputClass ? config.inputClass : "hv-shell",
-      maxLength: config.maxLength === undefined ? 5 : config.maxLength,
-      onOptionClick: config.onOptionClick && config.onOptionClick,
-      prefix: this.input.getAttribute("id") || this.input.getAttribute("class")
-    };
+    let statusError = this.checkOnType(this.config);
 
-    this.initialize();
-
-    new HVAutocompleteEvents(
-      this.input,
-      this.divResult,
-      this.divWrap,
-      this.data,
-      this.config,
-      this.defaultConfig
-    );
+    if (statusError !== "error") {
+      this.initialize(config);
+    }
   }
 
-  initialize() {
+  checkOnType(config) {
+    let error = false;
+    let headerError = "HV-Autcomplete crash :(\n\n";
+
+    for (let key in config) {
+      switch (key) {
+        case "data":
+          let isChecked;
+          if (Array.isArray(config[key])) isChecked = true;
+
+          if (typeof config[key] === "object") isChecked = true;
+
+          if (!isChecked) {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "data" must be a Object or Array!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "input":
+          if (config.input.tagName !== "INPUT") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "input" must be DOM Element <input />!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "maxLength":
+          if (typeof config.maxLength !== "number") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "maxLength" must be a Number!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "maxLength":
+          if (typeof config.maxLength !== "number") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "maxLength" must be a Number!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "horizontal":
+          if (typeof config.horizontal !== "boolean") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "horizontal" must be a Boolean!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "globalSearch":
+          if (typeof config.globalSearch !== "boolean") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "globalSearch" must be a Boolean!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "resultClass":
+          if (typeof config.resultClass !== "string") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "resultClass" must be a String!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "resultStyles":
+          if (typeof config.resultStyles !== "object") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "resultStyles" must be a Object!\n Please, check your type data.'
+            );
+          }
+          break;
+        case "onOptionClick":
+          if (typeof config.onOptionClick !== "function") {
+            error = true;
+            console.error(
+              headerError +
+                ' Option "onOptionClick" must be a Function!\n Please, check your type data.'
+            );
+          }
+          break;
+      }
+    }
+
+    if (error) {
+      return "error";
+    }
+
+    return "ok";
+  }
+
+  initialize(config) {
+    if (status !== "error") {
+      this.defaultConfig = {
+        resultClass: config.resultClass ? config.resultClass : "hv-result",
+        inputClass: config.inputClass ? config.inputClass : "hv-shell",
+        maxLength: config.maxLength === undefined ? 5 : config.maxLength,
+        onOptionClick: config.onOptionClick && config.onOptionClick,
+        prefix:
+          this.input.getAttribute("id") || this.input.getAttribute("class")
+      };
+
+      this.build();
+
+      new HVAutocompleteEvents(
+        this.input,
+        this.divResult,
+        this.divWrap,
+        this.data,
+        this.config,
+        this.defaultConfig
+      );
+    }
+  }
+
+  build() {
     this.divResult = document.createElement("div");
     this.divResult.setAttribute("id", "hv-result-" + this.defaultConfig.prefix);
     this.divResult.setAttribute("class", this.defaultConfig.resultClass);
@@ -242,27 +355,27 @@ class HVAutocompleteEvents {
         : this.defaultSearch(data[key].name);
 
       let link = document.createElement("a");
-      // link.setAttribute("href", data[key].url);
+      link.setAttribute("class", this.setUnicClass("element-" + type));
+      if (data[key].url) {
+        link.setAttribute("href", data[key].url);
+      }
+
       link.innerHTML = findWord;
 
-      let p = document.createElement("p");
-      p.setAttribute("class", this.setUnicClass("element-" + type));
-      p.append(link);
-
       if (onOptionClick) {
-        p.onclick = () => {
+        link.onclick = e => {
           let name = data[key].name;
           let url = data[key].url;
 
-          return onOptionClick(name, url, nameCategory);
+          return onOptionClick(e, name, url, nameCategory);
         };
       }
 
       if (maxLength && findWord && count <= maxLength) {
-        list.push(p);
+        list.push(link);
         count++;
       } else if (!maxLength && findWord) {
-        list.push(p);
+        list.push(link);
       }
     }
 
