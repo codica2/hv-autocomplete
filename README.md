@@ -16,6 +16,11 @@ var options = {
 new HVAutocomplete(options);
 ```
 
+Also you can test that on your computer. For this:
+
+- Clone the project;
+- Start commands `npm install`, `gulp browser-sync`;
+
 ## Getting started
 
 Just download our HV-Autocomplete plugin and include to your HTML. 

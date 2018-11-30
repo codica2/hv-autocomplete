@@ -766,11 +766,4 @@ var options = {
   horizontal: true
 };
 
-let $input = document.querySelector("#main");
-
-var options2 = {
-  input: document.querySelector("#main"),
-  data: ""
-};
-
 new HVAutocomplete(options);
